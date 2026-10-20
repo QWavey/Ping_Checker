@@ -1,145 +1,92 @@
 # Ping_Checker
-A tool to check when an website denys an request.
 
-A Python-based interactive **HTTP ping tester** that simulates different
-network conditions by varying speed, growth, size, stacking, and delay.\
-The tool can run in **easy mode** (guided prompts) or **advanced mode**
-(full 72 pre-defined test types).
+An interactive Python tool that sends HTTP requests to a URL while it varies speed, growth, payload size, stacking, and delay. Use it to find out when a website starts denying requests.
 
-------------------------------------------------------------------------
+It runs in **easy mode** (guided prompts) or **advanced mode** (72 predefined test types).
 
 ## Features
 
--   **Interactive Test Runner**\
-    Runs HTTP pings against a given URL with configurable parameters.
-
--   **Two Modes**
-
-    -   **Easy Mode** → Guided prompts to select speed, growth, size
-        change, stacking, and delay.\
-    -   **Advanced Mode** → Choose from 72 pre-configured test types.
-
--   **Color-Coded Output**\
-    ANSI colors highlight important metrics such as speed, growth, size,
-    and delay.
-
--   **Real-Time Feedback**\
-    Prints ping responses, elapsed time, packet sizes, and progress
-    updates live.
-
--   **Failure Handling**\
-    Stops when requests fail or are denied.
-
-------------------------------------------------------------------------
+- **Interactive test runner:** sends HTTP requests with configurable parameters.
+- **Two modes:**
+  - **Easy:** guided prompts for speed, growth, size change, stacking, and delay.
+  - **Advanced:** pick one of the 72 predefined test types.
+- **Color-coded output:** ANSI colors highlight speed, growth, size, and delay.
+- **Live output:** prints each response with its elapsed time, packet size, and progress.
+- **Stops on failure:** the run ends when requests fail or are denied.
 
 ## Parameters
 
-The tool varies the following test attributes:
+The tool varies these attributes:
 
-  ------------------------------------------------------------------------
-  Parameter      Options                                    Description
-  -------------- ------------------------------------------ --------------
-  **Speed**      `slow`, `fast`, `variable`                 Adjusts ping
-                                                            frequency
+| Parameter | Options | Description |
+| --- | --- | --- |
+| **Speed** | `slow`, `fast`, `variable` | Sets how often pings are sent |
+| **Growth** | `slow`, `rapid` | Sets how fast the payload grows |
+| **Size** | `bigger`, `same` | Whether the payload size changes |
+| **Stacking** | `yes`, `no` | Sends several stacked pings per iteration (still in testing) |
+| **Delay** | `none`, `fixed`, `dynamic` | Adds an artificial delay between requests |
 
-  **Growth**     `slow`, `rapid`                            Controls
-                                                            payload growth
-
-  **Size**       `bigger`, `same`                           Payload size
-                                                            changes
-
-  **Stacking**   `yes`, `no`                                Sends multiple
-                                                            stacked pings
-                                                            per iteration (IN TESTING)
-
-  **Delay**      `none`, `fixed`, `dynamic`                 Adds
-                                                            artificial
-                                                            delay between
-                                                            requests
-  ------------------------------------------------------------------------
-
-This results in **72 unique test types**.
-
-------------------------------------------------------------------------
+Combined, these give **72 unique test types**.
 
 ## Installation
 
-Clone this repository and install dependencies:
-
-``` bash
+```bash
 git clone https://github.com/XQuantumWaveX/Ping_Checker/
 cd Ping_Checker
 pip install requests
 ```
 
-------------------------------------------------------------------------
-
 ## Usage
 
-### Run the tool
-
-``` bash
+```bash
 python Ping_Test.py --url https://example.com --max_requests 50
 ```
 
-You will be prompted to select **easy mode** or **advanced mode**.
+The tool then asks you to choose easy mode or advanced mode.
 
-------------------------------------------------------------------------
+### Easy mode
 
-### Easy Mode
+```
+Select mode (easy / advanced): easy
+Choose Speed (Options: slow, fast, variable): fast
+Choose Growth (Options: slow, rapid): rapid
+Choose Size Change (Options: bigger, same): bigger
+Choose Stacking (Options: no, yes): yes
+Choose Delay (Options: none, fixed, dynamic): dynamic
+```
 
-Guided selection of parameters:
+### Advanced mode
 
-    Select mode (easy / advanced): easy
-    Choose Speed (Options: slow, fast, variable): fast
-    Choose Growth (Options: slow, rapid): rapid
-    Choose Size Change (Options: bigger, same): bigger
-    Choose Stacking (Options: no, yes): yes
-    Choose Delay (Options: none, fixed, dynamic): dynamic
+Advanced mode lists all 72 predefined test types in a table:
 
-------------------------------------------------------------------------
+```
+Select mode (easy / advanced): advanced
+Select a test type (1-72):
++-----+----------+--------+-------------+----------+---------+
+| Num | Speed    | Growth | Size Change | Stacking | Delay   |
++-----+----------+--------+-------------+----------+---------+
+| 1   | slow     | slow   | bigger      | no       | none    |
+| 2   | slow     | slow   | bigger      | no       | fixed   |
+...
+Enter test type number (1-72): 15
+```
 
-### Advanced Mode
+## Example output
 
-Lists all 72 predefined test types in a table. Example:
+```
+=== Running Test ===
+Speed: fast, Growth Rate: rapid, Size Change: bigger, Stacking: yes, Delay: dynamic
 
-    Select mode (easy / advanced): advanced
-    Select a test type (1-72):
-    +-----+----------+--------+-------------+----------+---------+
-    | Num | Speed    | Growth | Size Change | Stacking | Delay   |
-    +-----+----------+--------+-------------+----------+---------+
-    | 1   | slow     | slow   | bigger      | no       | none    |
-    | 2   | slow     | slow   | bigger      | no       | fixed   |
-    ...
-    Enter test type number (1-72): 15
-
-------------------------------------------------------------------------
-
-## Example Output
-
-    === Running Test ===
-    Speed: fast, Growth Rate: rapid, Size Change: bigger, Stacking: yes, Delay: dynamic
-
-    Ping 3-2: status=200, time=0.045s, size=144B, Speed: fast, Pings received: 10
-
-------------------------------------------------------------------------
+Ping 3-2: status=200, time=0.045s, size=144B, Speed: fast, Pings received: 10
+```
 
 ## Notes
 
--   Best used against test or staging environments.
--   May generate **high request loads** depending on settings.
--   Not recommended for use against production systems without
-    permission.
--   SCRIPT OUTPUT DEPENDS ON NETWORK SPEED AND CPU SPEED
+- Use it against test or staging environments. Depending on the settings, it can generate heavy request loads.
+- Don't run it against production systems without permission.
+- The output depends on your network speed and CPU speed.
+- I am not responsible for damage this script causes. Whoever runs it is responsible for their own actions.
 
-    I AM NOT RESPONSIBLE FOR ANY DAMAGE CAUSED BY THIS SCRIPT. PEOPLE WHO USE THIS SCRIPT NEED TO BE AWARE OF THEIR ACTIONS.
+## Planned
 
-------------------------------------------------------------------------
-
-
-
-
-
-TO ADD:
-
-- An option to stay between different Byte Sizes if you want to know the EXACT Byte
+- An option to hold a specific byte size, for tests that need an exact payload size.
