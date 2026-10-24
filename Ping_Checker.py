@@ -82,15 +82,17 @@ def interactive_test(url, max_requests, config):
         for s in range(stack):
             try:
                 start_time = time.time()
-                response = requests.get(url, timeout=5)
-                elapsed = time.time() - start_time
+                # stream=True: the body is never downloaded, only the status code is read.
+                with requests.get(url, timeout=5, stream=True) as response:
+                    elapsed = time.time() - start_time
+                    status = response.status_code
 
-                if response.status_code >= 400:
-                    print(f"\n{Colors.RED}Pings denied on Ping {count} with size {size}B (HTTP {response.status_code}){Colors.RESET}")
+                if status >= 400:
+                    print(f"\n{Colors.RED}Pings denied on Ping {count} with size {size}B (HTTP {status}){Colors.RESET}")
                     return
 
                 pings_received += 1
-                print(f"Ping {count}-{s+1}: status={response.status_code}, time={elapsed:.3f}s, "
+                print(f"Ping {count}-{s+1}: status={status}, time={elapsed:.3f}s, "
                       f"size={color_size(config['size_change'])}{size}B{Colors.RESET}, "
                       f"Speed: {color_speed(config['speed'])}{config['speed']}{Colors.RESET}, "
                       f"Pings received: {pings_received}   ", end="\r")
