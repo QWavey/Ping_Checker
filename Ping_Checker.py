@@ -81,10 +81,10 @@ def interactive_test(url, max_requests, config):
 
         for s in range(stack):
             try:
-                start_time = time.time()
+                start_time = time.perf_counter()
                 # stream=True: the body is never downloaded, only the status code is read.
                 with requests.get(url, timeout=5, stream=True) as response:
-                    elapsed = time.time() - start_time
+                    elapsed = time.perf_counter() - start_time
                     status = response.status_code
 
                 if status >= 400:
