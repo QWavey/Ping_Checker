@@ -67,7 +67,8 @@ def interactive_test(url, max_requests, config):
 
         if config["size_change"] == "bigger":
             growth_factor = 1.05 if config["growth"] == "slow" else 1.2
-            size = int(size * growth_factor)
+            # Cap keeps the float math finite on long runs (size is only displayed).
+            size = int(min(size * growth_factor, 1e300))
 
         if config["speed"] == "slow":
             current_delay = max(current_delay, 0.2)
@@ -120,6 +121,9 @@ def main():
     parser.add_argument("--url", required=True, help="URL to test")
     parser.add_argument("--max_requests", type=int, required=True, help="Number of requests")
     args = parser.parse_args()
+
+    if not args.url.startswith(("http://", "https://")):
+        parser.error("--url must start with http:// or https://")
 
     if mode=="advanced":
         print("Select a test type (1-72):")

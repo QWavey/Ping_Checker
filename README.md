@@ -31,7 +31,7 @@ Combined, these give **72 unique test types**.
 ## Installation
 
 ```bash
-git clone https://github.com/XQuantumWaveX/Ping_Checker/
+git clone https://github.com/QWavey/Ping_Checker/
 cd Ping_Checker
 pip install requests
 ```
@@ -39,7 +39,7 @@ pip install requests
 ## Usage
 
 ```bash
-python Ping_Test.py --url https://example.com --max_requests 50
+python Ping_Checker.py --url https://example.com --max_requests 50
 ```
 
 The tool then asks you to choose easy mode or advanced mode.
