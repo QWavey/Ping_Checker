@@ -121,7 +121,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="HTTP ping test.")
     parser.add_argument("--url", required=True, help="URL to test")
-    parser.add_argument("--max_requests", type=int, required=True, help="Number of requests")
+    parser.add_argument("--max_requests", type=int, required=True, help="Number of loop iterations; with stacking each iteration sends 1 to 10 requests")
     args = parser.parse_args()
 
     if not args.url.startswith(("http://", "https://")):
