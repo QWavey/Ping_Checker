@@ -88,18 +88,18 @@ def interactive_test(url, max_requests, config):
                     status = response.status_code
 
                 if status >= 400:
-                    print(f"\n{Colors.RED}Pings denied on Ping {count} with size {size}B (HTTP {status}){Colors.RESET}")
+                    print(f"\n{Colors.RED}Pings denied on Ping {count} (HTTP {status}){Colors.RESET}")
                     return
 
                 pings_received += 1
                 print(f"Ping {count}-{s+1}: status={status}, time={elapsed:.3f}s, "
-                      f"size={color_size(config['size_change'])}{size}B{Colors.RESET}, "
+                      f"nominal size={color_size(config['size_change'])}{size}B{Colors.RESET} (not sent), "
                       f"Speed: {color_speed(config['speed'])}{config['speed']}{Colors.RESET}, "
                       f"Pings received: {pings_received}   ", end="\r")
                 sys.stdout.flush()
 
             except requests.exceptions.RequestException:
-                print(f"\n{Colors.RED}Pings denied on Ping {count} with size {size}B (request failed){Colors.RESET}")
+                print(f"\n{Colors.RED}Pings denied on Ping {count} (request failed){Colors.RESET}")
                 return
 
         time.sleep(delay_time)
