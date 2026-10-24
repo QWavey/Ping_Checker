@@ -62,6 +62,7 @@ def interactive_test(url, max_requests, config):
     pings_received = 0
     current_delay = 0.5
 
+    stopped = False
     for count in range(1, max_requests + 1):
         stack = random.randint(1,10) if config["stacking"] == "yes" else 1
 
@@ -89,7 +90,8 @@ def interactive_test(url, max_requests, config):
 
                 if status >= 400:
                     print(f"\n{Colors.RED}Pings denied on Ping {count} (HTTP {status}){Colors.RESET}")
-                    return
+                    stopped = True
+                    break
 
                 pings_received += 1
                 print(f"Ping {count}-{s+1}: status={status}, time={elapsed:.3f}s, "
@@ -98,13 +100,19 @@ def interactive_test(url, max_requests, config):
                       f"Pings received: {pings_received}   ", end="\r")
                 sys.stdout.flush()
 
-            except requests.exceptions.RequestException:
-                print(f"\n{Colors.RED}Pings denied on Ping {count} (request failed){Colors.RESET}")
-                return
+            except requests.exceptions.RequestException as e:
+                print(f"\n{Colors.RED}Request failed on Ping {count}: {type(e).__name__}: {e}. No HTTP response was received.{Colors.RESET}")
+                stopped = True
+                break
 
+        if stopped:
+            break
         time.sleep(delay_time)
 
-    print(f"\n\nTest finished. Total Pings received: {pings_received}")
+    if stopped:
+        print(f"\nTest stopped. Total Pings received: {pings_received}")
+    else:
+        print(f"\n\nTest finished. Total Pings received: {pings_received}")
 
 # Match easy mode selections to a test type
 def find_test_type(speed, growth, size, stacking, delay):
