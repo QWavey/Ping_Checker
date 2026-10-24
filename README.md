@@ -11,7 +11,7 @@ It runs in **easy mode** (guided prompts) or **advanced mode** (72 predefined te
   - **Easy:** guided prompts for speed, growth, size change, stacking, and delay.
   - **Advanced:** pick one of the 72 predefined test types.
 - **Color-coded output:** ANSI colors highlight speed, growth, size, and delay.
-- **Live output:** prints each response with its elapsed time, packet size, and progress.
+- **Live output:** prints each response with its elapsed time, a nominal size value (not sent), and progress.
 - **Stops on failure:** the run ends when requests fail or are denied.
 
 ## Parameters
@@ -21,8 +21,8 @@ The tool varies these attributes:
 | Parameter | Options | Description |
 | --- | --- | --- |
 | **Speed** | `slow`, `fast`, `variable` | Sets how often pings are sent |
-| **Growth** | `slow`, `rapid` | Sets how fast the payload grows |
-| **Size** | `bigger`, `same` | Whether the payload size changes |
+| **Growth** | `slow`, `rapid` | Sets how fast the nominal size value grows (nothing extra is sent) |
+| **Size** | `bigger`, `same` | Whether the nominal size value changes (the size is not sent) |
 | **Stacking** | `yes`, `no` | Sends several stacked pings per iteration (still in testing) |
 | **Delay** | `none`, `fixed`, `dynamic` | Adds an artificial delay between requests |
 
@@ -77,7 +77,7 @@ Enter test type number (1-72): 15
 === Running Test ===
 Speed: fast, Growth Rate: rapid, Size Change: bigger, Stacking: yes, Delay: dynamic
 
-Ping 3-2: status=200, time=0.045s, size=144B, Speed: fast, Pings received: 10
+Ping 3-2: status=200, time=0.045s, nominal size=144B (not sent), Speed: fast, Pings received: 10
 ```
 
 ## Notes
