@@ -20,7 +20,7 @@ The tool varies these attributes:
 
 | Parameter | Options | Description |
 | --- | --- | --- |
-| **Speed** | `slow`, `fast`, `variable` | Sets how often pings are sent |
+| **Speed** | `slow`, `fast`, `variable` | Sets the pacing when Delay is `dynamic`; no effect when Delay is `none` or `fixed` |
 | **Growth** | `slow`, `rapid` | Sets how fast the nominal size value grows (nothing extra is sent) |
 | **Size** | `bigger`, `same` | Whether the nominal size value changes (the size is not sent) |
 | **Stacking** | `yes`, `no` | Sends several stacked pings per iteration (still in testing) |
@@ -82,6 +82,7 @@ Ping 3-2: status=200, time=0.045s, nominal size=144B (not sent), Speed: fast, Pi
 
 ## Notes
 
+- The `time=` value covers the whole request: DNS lookup, TCP and TLS setup (each request opens a new connection), and waiting for the response headers. It is not pure server latency.
 - Use it against test or staging environments. Depending on the settings, it can generate heavy request loads.
 - Don't run it against production systems without permission.
 - The output depends on your network speed and CPU speed.
