@@ -4,6 +4,7 @@ import time
 import random
 import sys
 from itertools import product
+from urllib.parse import urlparse
 
 # ANSI color codes
 class Colors:
@@ -121,19 +122,29 @@ def find_test_type(speed, growth, size, stacking, delay):
             return val
     return None
 
+def positive_int(value):
+    try:
+        number = int(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"invalid integer: {value!r}")
+    if number < 1:
+        raise argparse.ArgumentTypeError("must be at least 1")
+    return number
+
 def main():
-    # Choose mode
+    parser = argparse.ArgumentParser(description="HTTP ping test.")
+    parser.add_argument("--url", required=True, help="URL to test")
+    parser.add_argument("--max_requests", type=positive_int, required=True, help="Number of loop iterations; with stacking each iteration sends 1 to 10 requests")
+    args = parser.parse_args()
+
+    parsed_url = urlparse(args.url)
+    if parsed_url.scheme not in ("http", "https") or not parsed_url.hostname:
+        parser.error("--url must be an http:// or https:// URL with a host name")
+
+    # Choose mode only after the arguments are valid
     mode = ""
     while mode.lower() not in ["easy","advanced"]:
         mode = input("Select mode (easy / advanced): ").strip().lower()
-
-    parser = argparse.ArgumentParser(description="HTTP ping test.")
-    parser.add_argument("--url", required=True, help="URL to test")
-    parser.add_argument("--max_requests", type=int, required=True, help="Number of loop iterations; with stacking each iteration sends 1 to 10 requests")
-    args = parser.parse_args()
-
-    if not args.url.startswith(("http://", "https://")):
-        parser.error("--url must start with http:// or https://")
 
     if mode=="advanced":
         print("Select a test type (1-72):")
