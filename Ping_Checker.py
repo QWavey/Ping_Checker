@@ -156,12 +156,14 @@ def main():
             print(f"| {i:<3} | {t['speed']:<8} | {t['growth']:<6} | {t['size_change']:<11} | {t['stacking']:<8} | {t['delay']:<7} |")
         print("+-----+----------+--------+-------------+----------+---------+")
 
-        test_type = 0
-        while test_type not in range(1,len(TEST_TYPES)+1):
+        while True:
             try:
                 test_type = int(input(f"Enter test type number (1-{len(TEST_TYPES)}): "))
             except ValueError:
-                pass
+                test_type = 0
+            if test_type in range(1, len(TEST_TYPES) + 1):
+                break
+            print(f"Enter a number from 1 to {len(TEST_TYPES)}.")
 
         config = TEST_TYPES[test_type]
 
